@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/tech-help-portal/static/css/main.9547d8ec.css",
+    "main.js": "/tech-help-portal/static/js/main.70c18dbd.js",
+    "index.html": "/tech-help-portal/index.html",
+    "main.9547d8ec.css.map": "/tech-help-portal/static/css/main.9547d8ec.css.map",
+    "main.70c18dbd.js.map": "/tech-help-portal/static/js/main.70c18dbd.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9547d8ec.css",
+    "static/js/main.70c18dbd.js"
+  ]
+}
