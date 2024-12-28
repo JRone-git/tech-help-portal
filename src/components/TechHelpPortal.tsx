@@ -110,13 +110,34 @@ const categories: Category[] = [
                     "2. Kirjoita salasanat muistiin vihkoon, jota säilytät turvallisessa paikassa",
                     "3. Älä säilytä salasanoja tietokoneella tekstitiedostossa",
                     "4. Älä kerro salasanojasi kenellekään",
-                    "5. Voit käyttää salasanojen hallintaohjelmaa (esim. LastPass)",
+                    "5. Voit käyttää ilmaista salasanojen hallintaohjelmaa (esim. Bitwarden)",
                     "6. Vaihda tärkeimmät salasanat säännöllisesti"
                 ],
                 links: [
                     {
-                        text: "Salasanojen hallintaohjelmat",
-                        url: "https://tietosuoja.fi/salasanat"
+                        text: "Salasanojen hallintaohjeet (Kyberturvallisuuskeskus)",
+                        url: "https://www.kyberturvallisuuskeskus.fi/fi/ajankohtaista/ohjeet-ja-oppaat/salasanat-haltuun"
+                    },
+                    {
+                        text: "Bitwarden - Ilmainen salasanojen hallinta",
+                        url: "https://bitwarden.com/fi-FI/"
+                    }
+                ]
+            },
+            {
+                title: "Salasanojen hallintaohjelman käyttö",
+                steps: [
+                    "1. Lataa Bitwarden selaimesi sovelluskaupasta",
+                    "2. Luo tili vahvalla pääsalasanalla - kirjoita se muistiin!",
+                    "3. Asenna Bitwarden selaimeen laajennuksena",
+                    "4. Kun kirjaudut palveluihin, Bitwarden tarjoutuu tallentamaan salasanat",
+                    "5. Salasanat tallentuvat turvallisesti ja automaattisesti",
+                    "6. Voit käyttää samoja salasanoja kaikilla laitteillasi"
+                ],
+                links: [
+                    {
+                        text: "Bitwardenin käyttöohje suomeksi",
+                        url: "https://bitwarden.com/fi-FI/help/"
                     }
                 ]
             },
@@ -920,7 +941,7 @@ const TechHelpPortal = () => {
                 </li>
                 <li className="flex items-center gap-2">
                   <Mail className="w-5 h-5 text-blue-600" aria-hidden="true" />
-                  <span>Sähköposti: tuki@esimerkki.fi</span>
+                  <span>Sähköposti: seniorinettiapu@gmail.com</span>
                 </li>
               </ul>
             </div>
