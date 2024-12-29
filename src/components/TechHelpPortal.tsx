@@ -3,6 +3,7 @@ import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Computer, Smartphone, Mail, Wifi, HelpCircle, Printer, Search, Shield, FileText, Phone, ZoomIn, ZoomOut, Heart, Terminal, Settings, MessageSquare, Save, Users, ShoppingCart } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import QuestionForm from './QuestionForm';
+import Link from 'next/link';
 
 interface Link {
   text: string;
@@ -83,7 +84,7 @@ const categories: Category[] = [
                 links: [
                     {
                         text: "Turvallisen salasanan luominen",
-                        url: "https://www.kyberturvallisuuskeskus.fi/fi/ajankohtaista/ohjeet-ja-oppaat/salasanat-haltuun"
+                        url: "https://www.kyberturvallisuuskeskus.fi/fi/ajankohtaista/ohjeet-ja-oppaat/sahkopostin-tietoturva"
                     }
                 ]
             },
@@ -516,7 +517,7 @@ const categories: Category[] = [
                 links: [
                     {
                         text: "Windows pikanäppäimet",
-                        url: "https://support.microsoft.com/fi-fi/windows/windows-n-pikan%C3%A4pp%C3%A4imet-dcc61a57-8ff0-cffe-9796-cb9706c75eec"
+                        url: "https://support.microsoft.com/fi-fi/windows/windows-n-pikan%C3%A4pp%C3%A4imet-dcc61a57-8ff0-c559-c25e-77d1a80e2284"
                     }
                 ]
             },
@@ -851,7 +852,6 @@ const TechHelpPortal = () => {
             />
           </div>
         </div>
-      </header>
 
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -926,6 +926,36 @@ const TechHelpPortal = () => {
             </CardContent>
           </Card>
         )}
+
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="flex flex-col items-center">
+              <h2 id="verkko-ostokset" className="text-2xl font-bold mt-4">Verkko-ostokset</h2>
+              <p>Turvallinen verkkokauppojen käyttö</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <h2 id="sosiaalinen-media" className="text-2xl font-bold mt-4">Sosiaalinen media</h2>
+              <p>Turvallinen sosiaalisen median käyttö</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <h2 id="varmuuskopiointi" className="text-2xl font-bold mt-4">Varmuuskopiointi</h2>
+              <p>Tärkeiden tiedostojen ja kuvien varmuuskopiointi</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <h2 id="salasanat" className="text-2xl font-bold mt-4">Salasanat ja tunnukset</h2>
+              <p>Salasanojen ja tunnusten turvallinen hallinta</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Link href="#verkko-ostokset">Verkko-ostokset</Link>
+            <Link href="#sosiaalinen-media">Sosiaalinen media</Link>
+            <Link href="#varmuuskopiointi">Varmuuskopiointi</Link>
+            <Link href="#salasanat">Salasanat ja tunnukset</Link>
+          </div>
+        </div>
 
         <Card className="mt-8 p-6">
           <CardHeader>
