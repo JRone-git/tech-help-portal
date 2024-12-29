@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/tech-help-portal/static/css/main.9547d8ec.css",
-    "main.js": "/tech-help-portal/static/js/main.cd250f5b.js",
+    "main.js": "/tech-help-portal/static/js/main.fda2f674.js",
     "index.html": "/tech-help-portal/index.html",
     "main.9547d8ec.css.map": "/tech-help-portal/static/css/main.9547d8ec.css.map",
-    "main.cd250f5b.js.map": "/tech-help-portal/static/js/main.cd250f5b.js.map"
+    "main.fda2f674.js.map": "/tech-help-portal/static/js/main.fda2f674.js.map"
   },
   "entrypoints": [
     "static/css/main.9547d8ec.css",
-    "static/js/main.cd250f5b.js"
+    "static/js/main.fda2f674.js"
   ]
 }
