@@ -3,7 +3,7 @@ import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Computer, Smartphone, Mail, Wifi, HelpCircle, Printer, Search, Shield, FileText, Phone, ZoomIn, ZoomOut, Heart, Terminal, Settings, MessageSquare, Save, Users, ShoppingCart } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import QuestionForm from './QuestionForm';
-import Link from 'next/link';
+
 
 interface Link {
   text: string;
@@ -782,220 +782,236 @@ const categories: Category[] = [
 ];
 
 const TechHelpPortal = () => {
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [fontSize, setFontSize] = useState(16); // Oletuskoko pikseleinä
-  const [showQuestionForm, setShowQuestionForm] = useState(false);
-
-  // Tallennetaan fonttikoko local storageen
-  useEffect(() => {
-    const savedFontSize = localStorage.getItem('fontSize');
-    if (savedFontSize) {
-      setFontSize(parseInt(savedFontSize));
-      document.documentElement.style.fontSize = `${savedFontSize}px`;
-    }
-  }, []);
-
-  // Fonttikoon muuttaminen
-  const changeFontSize = (delta: number) => {
-    const newSize = Math.min(Math.max(fontSize + delta, 12), 24); // Min 12px, Max 24px
-    setFontSize(newSize);
-    document.documentElement.style.fontSize = `${newSize}px`;
-    localStorage.setItem('fontSize', newSize.toString());
-  };
-
-  // Hakutoiminto kategorioille ja vinkeille
-  const filteredCategories = categories.filter(category => {
-    const searchMatch = (
-      category.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      category.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      category.tips.some(tip => tip.title.toLowerCase().includes(searchTerm.toLowerCase()))
-    );
-    return searchMatch;
-  });
-
-  return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <header className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Tietotekniikka-apu senioreille</h1>
-        <p className="text-xl text-gray-700">Selkeät ohjeet tietotekniikan käyttöön</p>
+    const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [fontSize, setFontSize] = useState(16);
+    const [showQuestionForm, setShowQuestionForm] = useState(false);
+  
+    // Add the new function here
+    const handleCategorySelect = (category: Category) => {
+        setSelectedCategory(category);
         
-        <div className="flex justify-center gap-4 mt-4">
-          <button
-            onClick={() => changeFontSize(-1)}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 rounded-lg transition-colors"
-            aria-label="Pienennä tekstiä"
-          >
-            <ZoomOut className="w-5 h-5" aria-hidden="true" />
-            <span>Pienennä tekstiä</span>
-          </button>
-          <button
-            onClick={() => changeFontSize(1)}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 rounded-lg transition-colors"
-            aria-label="Suurenna tekstiä"
-          >
-            <ZoomIn className="w-5 h-5" aria-hidden="true" />
-            <span>Suurenna tekstiä</span>
-          </button>
-        </div>
+        const scrollToElement = () => {
+          const elementId = `category-${category.title.replace(/\s+/g, '-').toLowerCase()}`;
+          const element = document.getElementById(elementId);
+          const offset = 80;
+          
+          if (element) {
+            const start = window.pageYOffset;
+            const target = element.getBoundingClientRect().top + window.pageYOffset - offset;
+            const duration = 800;
+            let startTime: number | null = null;
+            
+            const animation = (currentTime: number) => {
+              if (startTime === null) startTime = currentTime;
+              const timeElapsed = currentTime - startTime;
+              const progress = Math.min(timeElapsed / duration, 1);
+              
+              const ease = (t: number) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+              const position = start + (target - start) * ease(progress);
+              
+              window.scrollTo(0, position);
+              
+              if (timeElapsed < duration) {
+                requestAnimationFrame(animation);
+              }
+            };
+            
+            requestAnimationFrame(animation);
+          }
+        };
+        
+        setTimeout(scrollToElement, 100);
+      };
+      
+      
+    useEffect(() => {
+      const savedFontSize = localStorage.getItem('fontSize');
+      if (savedFontSize) {
+        setFontSize(parseInt(savedFontSize));
+        document.documentElement.style.fontSize = `${savedFontSize}px`;
+      }
+    }, []);
 
-        <div className="max-w-xl mx-auto mt-8">
-          <div className="relative">
-            <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400" aria-hidden="true" />
-            <input
-              type="text"
-              placeholder="Etsi ohjeita..."
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              aria-label="Hae ohjeita"
-            />
+    // Fonttikoon muuttaminen
+    const changeFontSize = (delta: number) => {
+      const newSize = Math.min(Math.max(fontSize + delta, 12), 24); // Min 12px, Max 24px
+      setFontSize(newSize);
+      document.documentElement.style.fontSize = `${newSize}px`;
+      localStorage.setItem('fontSize', newSize.toString());
+    };
+
+    // Hakutoiminto kategorioille ja vinkeille
+    const filteredCategories = categories.filter(category => {
+      const searchMatch = (
+        category.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        category.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        category.tips.some(tip => tip.title.toLowerCase().includes(searchTerm.toLowerCase()))
+      );
+      return searchMatch;
+    });
+
+    return (
+      <div className="min-h-screen bg-gray-50 p-6">
+        <header className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Tietotekniikka-apu senioreille</h1>
+          <p className="text-xl text-gray-700">Selkeät ohjeet tietotekniikan käyttöön</p>
+      
+          <div className="flex justify-center gap-4 mt-4">
+            <button
+              onClick={() => changeFontSize(-1)}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 rounded-lg transition-colors"
+              aria-label="Pienennä tekstiä"
+            >
+              <ZoomOut className="w-5 h-5" aria-hidden="true" />
+              <span>Pienennä tekstiä</span>
+            </button>
+            <button
+              onClick={() => changeFontSize(1)}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 rounded-lg transition-colors"
+              aria-label="Suurenna tekstiä"
+            >
+              <ZoomIn className="w-5 h-5" aria-hidden="true" />
+              <span>Suurenna tekstiä</span>
+            </button>
           </div>
-        </div>
 
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCategories.map((category, index) => (
-            <Card 
+          <div className="max-w-xl mx-auto mt-8">
+            <div className="relative">
+              <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400" aria-hidden="true" />
+              <input
+                type="text"
+                placeholder="Etsi ohjeita..."
+                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                aria-label="Hae ohjeita"
+              />
+            </div>
+          </div>
+        </header>
+
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredCategories.map((category, index) => (
+              <Card 
               key={index}
               className="cursor-pointer hover:shadow-lg transition-shadow duration-200"
-              onClick={() => setSelectedCategory(category)}
+              onClick={() => handleCategorySelect(category)}
               role="button"
               tabIndex={0}
-              onKeyPress={(e) => e.key === 'Enter' && setSelectedCategory(category)}
+              onKeyPress={(e) => e.key === 'Enter' && handleCategorySelect(category)}
               aria-label={`Kategoria: ${category.title}`}
             >
-              <CardHeader className="flex flex-col items-center text-center">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4" aria-hidden="true">
-                  <category.icon className="w-8 h-8 text-blue-600" />
-                </div>
-                <CardTitle className="mb-2">{category.title}</CardTitle>
-                <p className="text-gray-700">{category.description}</p>
-              </CardHeader>
-            </Card>
-          ))}
-        </div>
+            
+                <CardHeader className="flex flex-col items-center text-center">
+                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4" aria-hidden="true">
+                    <category.icon className="w-8 h-8 text-blue-600" />
+                  </div>
+                  <CardTitle className="mb-2">{category.title}</CardTitle>
+                  <p className="text-gray-700">{category.description}</p>
+                </CardHeader>
+              </Card>
+            ))}
+          </div>
 
-        {selectedCategory && (
+          {selectedCategory && (
+            <Card 
+                className="mt-8 p-6" 
+                id={`category-${selectedCategory.title.replace(/\s+/g, '-').toLowerCase()}`}
+            >
+
+              <CardHeader>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center" aria-hidden="true">
+                    <selectedCategory.icon className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <CardTitle className="mb-2">{selectedCategory.title}</CardTitle>
+                    <p className="text-gray-700">{selectedCategory.description}</p>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <h3 className="font-semibold mb-4">Yleisimmät kysymykset ja vinkit:</h3>
+                <ul className="space-y-6" role="list">
+                  {selectedCategory.tips.map((tip, index) => (
+                    <li key={index} className="space-y-3">
+                      <h4 className="font-medium">{tip.title}</h4>
+                      <ol className="list-decimal list-inside space-y-2">
+                        {tip.steps.map((step, stepIndex) => (
+                          <li key={stepIndex} className="pl-4">{step}</li>
+                        ))}
+                      </ol>
+                      {tip.links && tip.links.length > 0 && (
+                        <div className="mt-3">
+                          <p className="font-medium">Hyödyllisiä linkkejä:</p>
+                          <ul className="list-disc list-inside space-y-1">
+                            {tip.links.map((link, linkIndex) => (
+                              <li key={linkIndex}>
+                                <a 
+                                  href={link.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-blue-600 hover:text-blue-800 hover:underline focus:ring-2 focus:ring-blue-500 rounded"
+                                  aria-label={`Avaa ${link.text} uudessa välilehdessä`}
+                                >
+                                  {link.text}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          )}
+
+
+
           <Card className="mt-8 p-6">
             <CardHeader>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center" aria-hidden="true">
-                  <selectedCategory.icon className="w-6 h-6 text-blue-600" />
-                </div>
-                <div>
-                  <CardTitle className="mb-2">{selectedCategory.title}</CardTitle>
-                  <p className="text-gray-700">{selectedCategory.description}</p>
-                </div>
-              </div>
+              <CardTitle>Tarvitsetko lisäapua?</CardTitle>
             </CardHeader>
             <CardContent>
-              <h3 className="font-semibold mb-4">Yleisimmät kysymykset ja vinkit:</h3>
-              <ul className="space-y-6" role="list">
-                {selectedCategory.tips.map((tip, index) => (
-                  <li key={index} className="space-y-3">
-                    <h4 className="font-medium">{tip.title}</h4>
-                    <ol className="list-decimal list-inside space-y-2">
-                      {tip.steps.map((step, stepIndex) => (
-                        <li key={stepIndex} className="pl-4">{step}</li>
-                      ))}
-                    </ol>
-                    {tip.links && tip.links.length > 0 && (
-                      <div className="mt-3">
-                        <p className="font-medium">Hyödyllisiä linkkejä:</p>
-                        <ul className="list-disc list-inside space-y-1">
-                          {tip.links.map((link, linkIndex) => (
-                            <li key={linkIndex}>
-                              <a 
-                                href={link.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-600 hover:text-blue-800 hover:underline focus:ring-2 focus:ring-blue-500 rounded"
-                                aria-label={`Avaa ${link.text} uudessa välilehdessä`}
-                              >
-                                {link.text}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+              <div className="space-y-4">
+                <p>Jos et löydä vastausta kysymykseesi, voit ottaa yhteyttä:</p>
+                <ul className="space-y-2" role="list">
+                  <li className="flex items-center gap-2">
+                    <Phone className="w-5 h-5 text-blue-600" aria-hidden="true" />
+                    <span>Tukipuhelin: Tulossa (arkisin 9-16)</span>
                   </li>
-                ))}
-              </ul>
+                  <li className="flex items-center gap-2">
+                    <Mail className="w-5 h-5 text-blue-600" aria-hidden="true" />
+                    <span>Sähköposti: seniorinettiapu@gmail.com</span>
+                  </li>
+                </ul>
+              </div>
             </CardContent>
           </Card>
-        )}
 
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="flex flex-col items-center">
-              <h2 id="verkko-ostokset" className="text-2xl font-bold mt-4">Verkko-ostokset</h2>
-              <p>Turvallinen verkkokauppojen käyttö</p>
-            </div>
-            <div className="flex flex-col items-center">
-              <h2 id="sosiaalinen-media" className="text-2xl font-bold mt-4">Sosiaalinen media</h2>
-              <p>Turvallinen sosiaalisen median käyttö</p>
-            </div>
-            <div className="flex flex-col items-center">
-              <h2 id="varmuuskopiointi" className="text-2xl font-bold mt-4">Varmuuskopiointi</h2>
-              <p>Tärkeiden tiedostojen ja kuvien varmuuskopiointi</p>
-            </div>
-            <div className="flex flex-col items-center">
-              <h2 id="salasanat" className="text-2xl font-bold mt-4">Salasanat ja tunnukset</h2>
-              <p>Salasanojen ja tunnusten turvallinen hallinta</p>
-            </div>
+          <div className="fixed bottom-6 right-6">
+            <button
+              onClick={() => setShowQuestionForm(true)}
+              className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-lg"
+            >
+              <MessageSquare className="w-5 h-5" />
+              <span>Kysy neuvoa</span>
+            </button>
           </div>
-        </div>
 
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Link href="#verkko-ostokset">Verkko-ostokset</Link>
-            <Link href="#sosiaalinen-media">Sosiaalinen media</Link>
-            <Link href="#varmuuskopiointi">Varmuuskopiointi</Link>
-            <Link href="#salasanat">Salasanat ja tunnukset</Link>
-          </div>
-        </div>
-
-        <Card className="mt-8 p-6">
-          <CardHeader>
-            <CardTitle>Tarvitsetko lisäapua?</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <p>Jos et löydä vastausta kysymykseesi, voit ottaa yhteyttä:</p>
-              <ul className="space-y-2" role="list">
-                <li className="flex items-center gap-2">
-                  <Phone className="w-5 h-5 text-blue-600" aria-hidden="true" />
-                  <span>Tukipuhelin: Tulossa (arkisin 9-16)</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Mail className="w-5 h-5 text-blue-600" aria-hidden="true" />
-                  <span>Sähköposti: seniorinettiapu@gmail.com</span>
-                </li>
-              </ul>
+          {showQuestionForm && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+              <QuestionForm onClose={() => setShowQuestionForm(false)} />
             </div>
-          </CardContent>
-        </Card>
-
-        <div className="fixed bottom-6 right-6">
-          <button
-            onClick={() => setShowQuestionForm(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-lg"
-          >
-            <MessageSquare className="w-5 h-5" />
-            <span>Kysy neuvoa</span>
-          </button>
+          )}
         </div>
-
-        {showQuestionForm && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <QuestionForm onClose={() => setShowQuestionForm(false)} />
-          </div>
-        )}
       </div>
-    </div>
-  );
-};
+    );
+
+}
 
 export default TechHelpPortal;
